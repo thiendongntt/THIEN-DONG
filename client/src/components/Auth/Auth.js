@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import {
   Avatar,
   Button,
-  Paper,
-  Grid,
-  Typography,
   Container,
+  Grid,
+  Paper,
+  Typography,
 } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
-import Icon from "./icon";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import React, { useState } from "react";
+import { GoogleLogin } from "react-google-login";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { signin, signup } from "../../actions/auth";
 import { AUTH } from "../../constants/actionTypes";
+import Icon from "./icon";
 import Input from "./Input";
 
 const useStyles = makeStyles((theme) => ({
@@ -94,7 +94,7 @@ const SignUp = () => {
   };
 
   const googleError = () =>
-    alert("Google Sign In was unsuccessful. Try again later");
+    console.log("Google Sign In was unsuccessful. Try again later");
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });

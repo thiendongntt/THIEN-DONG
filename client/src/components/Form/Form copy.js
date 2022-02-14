@@ -4,6 +4,9 @@ import React, { useEffect, useState } from "react";
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
 import { createPosts, updatePosts } from "../../actions/posts";
+import { useForm, Controller } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +47,22 @@ function Form({ currentId, setCurrentId }) {
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem("profile"));
 
+  const schema = yup.object().shape({
+    identifier: yup
+      .string()
+      .required("Please enter your email")
+      .email("Please enter a valid email address"),
+    password: yup.string().required("Please enter your password"),
+  });
+
+  const form = useForm({
+    defaultValues: {
+      identifier: "",
+      password: "",
+    },
+    resolver: yupResolver(schema),
+  });
+
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
@@ -55,13 +74,6 @@ function Form({ currentId, setCurrentId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (
-      postData.title === "" ||
-      postData.message === "" ||
-      postData.tags === ""
-    )
-      return;
 
     if (currentId === 0) {
       dispatch(createPosts({ ...postData, name: user?.result?.name }));
@@ -90,12 +102,11 @@ function Form({ currentId, setCurrentId }) {
         autoComplete="off"
         noValidate
         className={`${classes.root} ${classes.form}`}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(handleSubmit)}
       >
         <Typography variant="h6">
           {currentId ? `Editing "${post.title}"` : "Creating a Memory"}
         </Typography>
-
         <TextField
           type="text"
           required

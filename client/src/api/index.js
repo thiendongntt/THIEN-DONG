@@ -2,7 +2,7 @@ import axios from "axios";
 
 // const url = "http://localhost:5000/posts";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "https://demoprojectmern.herokuapp.com/" });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("profile")) {
@@ -32,7 +32,7 @@ export const deletePosts = (id) => API.delete(`/posts/${id}`);
 
 export const comment = (value, id) =>
   API.post(`/posts/${id}/commentPost`, { value });
-  
+
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
 
 export const signIn = (formData) => API.post("/user/signin", formData);

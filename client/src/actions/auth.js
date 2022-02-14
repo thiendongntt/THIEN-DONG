@@ -1,5 +1,6 @@
 import { AUTH } from "../constants/actionTypes";
 import * as api from "../api/index.js";
+// import { useSnackbar } from "notistack";
 
 export const signin = (formData, router) => async (dispatch) => {
   try {
@@ -14,6 +15,7 @@ export const signin = (formData, router) => async (dispatch) => {
 };
 
 export const signup = (formData, router) => async (dispatch) => {
+  // const { enqueueSnackbar } = useSnackbar();
   try {
     const { data } = await api.signUp(formData);
 
@@ -21,6 +23,10 @@ export const signup = (formData, router) => async (dispatch) => {
 
     router.push("/");
   } catch (error) {
+    const { data } = error.response;
+    // enqueueSnackbar(data.message, { variant: "error" });
+
+    alert(data.message);
     console.log(error);
   }
 };
